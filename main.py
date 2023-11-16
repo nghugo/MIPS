@@ -40,11 +40,19 @@ def isPrime():
     if val <= 1:
         print(f"{val} is NOT a prime number")
         return
-    for i in range(2, val):  # 2, ..., val - 1 , change to while loop
-        if val % i == 0:  # replace with a function
+    i = 2
+    while i < val: # 2, ..., val - 1
+        if getRemainder(val, i) == 0:  # equivalent to if val % i == 0
             print(f"{val} is NOT a prime number")
             return
+        i += 1
     print(f"{val} is a prime number")
+
+def getRemainder(val, divisor):
+    while val >= 0:  # == case important
+        val -= divisor
+    val += divisor  # correct for overshoot
+    return val
 
 def factorial():
     print(dash)
