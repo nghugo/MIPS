@@ -8,29 +8,29 @@ is_prime_message = "isPrime"
 enter_integer_message = "Please enter an integer:"
 factorial_message = "Factorial"
 
-notTerminated = True
+not_terminated = True  # do not need in mips, as you can command a global exit
 
 # .main
 def main():
     print(greeting_message)
-    while notTerminated:
-        getOption()
+    while not_terminated:
+        get_option()
     print("Exit.")
         
-def getOption():
-    global notTerminated  # represents register address
+def get_option():
+    global not_terminated  # represents register address
     print(newline)
     print(select_option_message)
     print(options_message)
     option = input()
     if option == "1":
-        isPrime()
+        is_prime()
     if option == "2":
         factorial()
     if option == "3":
-        notTerminated = False
+        not_terminated = False
 
-def isPrime():
+def is_prime():
     print(dash)
     print(is_prime_message)
     print(dash)
@@ -41,13 +41,13 @@ def isPrime():
         return
     i = 2
     while i < val: # 2, ..., val - 1
-        if getRemainder(val, i) == 0:  # equivalent to if val % i == 0
+        if get_remainder(val, i) == 0:  # equivalent to if val % i == 0
             print(f"{val} is NOT a prime number")
             return
         i += 1
     print(f"{val} is a prime number")
 
-def getRemainder(val, divisor):
+def get_remainder(val, divisor):
     while val >= 0:  # == case important
         val -= divisor
     val += divisor  # correct for overshoot

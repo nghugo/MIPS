@@ -7,27 +7,27 @@ dash:    .asciiz "-------\n"
 is_prime_message:    .asciiz "isPrime\n"
 enter_integer_message:    .asciiz "Please enter an integer:\n"
 factorial_message:    .asciiz "Factorial\n"
-notTerminated:    .word 1
 
 .text
 .globl main
 
 main:
-    la $t0, notTerminated # Load address of notTerminated into $t0.
-    lw $t0, 0($t0) # Load value of notTerminated into $t0, ie initialize $t0 as value 1
-
     # Greet user
     li $v0, 4       # syscall: print_str
     la $a0, greeting_message  # load address of prompt string
     syscall
 
 loop:
+    jal get_option
+    j loop
 
+get_option:
     # Exit program
     li $v0, 10      # syscall: exit
     syscall
-    
-    j loop
+
+
+
     # # Prompt for user input
     # li $v0, 4       # syscall: print_str
     # la $a0, prompt  # load address of prompt string
