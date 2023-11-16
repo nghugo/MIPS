@@ -1,8 +1,6 @@
 .data
-newline:    .asciiz "\n"
 greeting_message:    .asciiz "Welcome to the MIPS Calculator\n"
-select_option_message:    .asciiz "\nSelect an option:\n"
-options_message:    .asciiz "[1] isPrime?    [2] Factorial?    [3] Exit?\n"
+select_option_message:    .asciiz "\nSelect an option:\n[1] isPrime?    [2] Factorial?    [3] Exit?\n"
 dash:    .asciiz "-------\n"
 is_prime_message:    .asciiz "isPrime\n"
 enter_integer_message:    .asciiz "Please enter an integer:\n"
@@ -22,6 +20,13 @@ loop:
     j loop
 
 get_option:
+
+    # Display select option message
+    li $v0, 4       # syscall: print_str
+    la $a0, select_option_message  # load address of prompt string
+    syscall
+
+
     # Exit program
     li $v0, 10      # syscall: exit
     syscall
