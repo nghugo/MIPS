@@ -1,10 +1,9 @@
 # .data
 greeting_message = "\nWelcome to the MIPS Calculator"
 select_option_message = "\nSelect an option:\n[1] isPrime?    [2] Factorial?    [3] Exit?"
-dash = "-------"
-is_prime_message = "isPrime"
+is_prime_message = "-------\nisPrime\n-------"
 enter_integer_message = "Please enter an integer:"
-factorial_message = "Factorial"
+factorial_message = "-------\nFactorial\n-------"
 
 not_terminated = True  # do not need in mips, as you can command a global exit
 
@@ -27,9 +26,7 @@ def get_option():
         not_terminated = False
 
 def is_prime():
-    print(dash)
     print(is_prime_message)
-    print(dash)
     print(enter_integer_message)
     val = int(input())
     if val <= 1:
@@ -50,9 +47,7 @@ def get_remainder(val, divisor):
     return val
 
 def factorial():
-    print(dash)
     print(factorial_message)
-    print(dash)
     print(enter_integer_message)
     val = int(input())
     valCopy = val

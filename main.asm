@@ -1,10 +1,9 @@
 .data
 greeting_message:    .asciiz "Welcome to the MIPS Calculator\n"
 select_option_message:    .asciiz "\nSelect an option:\n[1] isPrime?    [2] Factorial?    [3] Exit?\n"
-dash:    .asciiz "-------\n"
-is_prime_message:    .asciiz "isPrime\n"
+is_prime_message:    .asciiz "-------\nisPrime\n-------\n"
 enter_integer_message:    .asciiz "Please enter an integer:\n"
-factorial_message:    .asciiz "Factorial\n"
+factorial_message:    .asciiz "-------\nFactorial\n-------\n"
 
 .text
 .globl main
