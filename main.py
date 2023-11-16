@@ -1,8 +1,7 @@
-
 # .data
 greeting_message = "Welcome to the MIPS Calculator"
-prompt_select_option_message = "Select an option:"
-prompt_options_message = "[1] isPrime?    [2] Factorial?    [3] Exit?"
+select_option_message = "Select an option:"
+options_message = "[1] isPrime?    [2] Factorial?    [3] Exit?"
 dash = "-------"
 newline = ""  #  \n
 is_prime_message = "isPrime"
@@ -21,8 +20,8 @@ def main():
 def getOption():
     global notTerminated  # represents register address
     print(newline)
-    print(prompt_select_option_message)
-    print(prompt_options_message)
+    print(select_option_message)
+    print(options_message)
     option = input()
     if option == "1":
         isPrime()
