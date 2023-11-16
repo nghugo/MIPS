@@ -14,15 +14,17 @@ main:
     la $a0, greeting_message  # load address of prompt string
     syscall
 
+
 loop:
     jal get_option
     j loop
 
+
 get_option:
 
     addi $sp, $sp, -8  # Move the stack pointer.
-    sw  $ra,    4($sp)  # Store return address.
-    sw  $s0,    0($sp)  # Store $s0 as we want to use it, but need to also restore it.
+    sw  $ra,    4($sp)  # Store return address (we are about to call nested procedures).
+    sw  $s0,    0($sp)  # Store $s0 as we want to use it, but we are also obligated to restore it.
 
     # Display select option message
     li $v0, 4       # syscall: print string
@@ -33,8 +35,42 @@ get_option:
     li $v0, 5       # syscall: read integer
     syscall
 
-    # Load the option to $s0, which persists across procedural calls
-    lw $s0, $v0
+    # Set the option to $s0, which persists across procedural calls
+    add $s0, $v0, $zero
+
+
+    li $t0, 1
+    blt $s0, $t0, option_executed_or_invalid_input  # if $s0 ie option < 1, jump after all options (invalid input)
+    li $t0, 2
+    bge $s0, $t0, option_2_or_3  # if $s0 ie option >= 2, jump to option_2_or_3
+    # fill in: option 1 proc
+    # testing START ---
+    li $v0, 1       # syscall: print integer
+    la $a0, 1111
+    syscall
+    # testing END   ---
+
+    j option_executed_or_invalid_input
+option_2_or_3:
+    li $t0, 3
+    beq $s0, $t0, option_2_or_3  # if $s0 ie option == 3, jump to option_3
+    # fill in: option 2 proc
+    # testing START ---
+    li $v0, 1       # syscall: print integer
+    la $a0, 2222
+    syscall
+    # testing END   ---
+    j option_executed_or_invalid_input
+option_3:
+    # fill in: option 3 proc
+    # testing START ---
+    li $v0, 1       # syscall: print integer
+    la $a0, 3333
+    syscall
+    j end_program
+    # testing END   ---
+    j option_executed_or_invalid_input
+option_executed_or_invalid_input:
 
     # TODO: call the 3 procedures based on the 3 different values of $s0
 
@@ -45,7 +81,7 @@ get_option:
 
     # TODO: Move the exit program code below to the 3rd procedure ie exit
     # Graceful exit
-    j end_program
+    
 
 # TODO: is_prime procedure
 # TODO: get_remainder procedure
