@@ -41,6 +41,8 @@ get_option:
 
     li $t0, 1
     blt $s0, $t0, option_executed_or_invalid_input  # if $s0 ie option < 1, jump after all options (invalid input)
+    li $t0, 3
+    bgt $s0, $t0, option_executed_or_invalid_input  # if $s0 ie option > 3, jump after all options (invalid input)
     li $t0, 2
     bge $s0, $t0, option_2_or_3  # if $s0 ie option >= 2, jump to option_2_or_3
     # fill in: option 1 proc
@@ -53,7 +55,7 @@ get_option:
     j option_executed_or_invalid_input
 option_2_or_3:
     li $t0, 3
-    beq $s0, $t0, option_2_or_3  # if $s0 ie option == 3, jump to option_3
+    beq $s0, $t0, option_3  # if $s0 ie option == 3, jump to option_3
     # fill in: option 2 proc
     # testing START ---
     li $v0, 1       # syscall: print integer
