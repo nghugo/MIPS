@@ -1,9 +1,10 @@
 .data
 greeting_message:    .asciiz "Welcome to the MIPS Calculator\n"
-select_option_message:    .asciiz "\nSelect an option:\n[1] isPrime?    [2] Factorial?    [3] Exit?\n"
+select_option_message:    .asciiz "\nSelect an option:\n[1] isPrime?    [2] Factorial    [3] Exit\n"
 is_prime_message:    .asciiz "-------\nisPrime\n-------\n"
 enter_integer_message:    .asciiz "Please enter an integer:\n"
 factorial_message:    .asciiz "-------\nFactorial\n-------\n"
+exit_message:    .asciiz "Exit.\n"
 
 .text
 .globl main
@@ -88,8 +89,9 @@ factorial:
 
 
 exit:
-    li $v0, 1       # syscall: print integer
-    la $a0, 3333
+    # Display select option message
+    li $v0, 4       # syscall: print string
+    la $a0, exit_message  # load address of prompt string
     syscall
     li $v0, 10      # syscall: exit
     syscall

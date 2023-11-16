@@ -1,6 +1,6 @@
 # .data
 greeting_message = "\nWelcome to the MIPS Calculator"
-select_option_message = "\nSelect an option:\n[1] isPrime?    [2] Factorial?    [3] Exit?"
+select_option_message = "\nSelect an option:\n[1] isPrime?    [2] Factorial    [3] Exit"
 is_prime_message = "-------\nisPrime\n-------"
 enter_integer_message = "Please enter an integer:"
 factorial_message = "-------\nFactorial\n-------"
