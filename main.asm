@@ -1,23 +1,33 @@
 .data
 newline:    .asciiz "\n"
-greeting_message:    .asciiz "Welcome to the MIPS Calculator"
-select_option_message:    .asciiz "Select an option:"
-options_message:    .asciiz "[1] isPrime?    [2] Factorial?    [3] Exit?"
-dash:    .asciiz "-------"
-is_prime_message:    .asciiz "isPrime"
-enter_integer_message:    .asciiz "Please enter an integer:"
-factorial_message:    .asciiz "Factorial"
+greeting_message:    .asciiz "Welcome to the MIPS Calculator\n"
+select_option_message:    .asciiz "\nSelect an option:\n"
+options_message:    .asciiz "[1] isPrime?    [2] Factorial?    [3] Exit?\n"
+dash:    .asciiz "-------\n"
+is_prime_message:    .asciiz "isPrime\n"
+enter_integer_message:    .asciiz "Please enter an integer:\n"
+factorial_message:    .asciiz "Factorial\n"
 notTerminated:    .word 1
 
 .text
 .globl main
 
 main:
+    la $t0, notTerminated # Load address of notTerminated into $t0.
+    lw $t0, 0($t0) # Load value of notTerminated into $t0, ie initialize $t0 as value 1
+
     # Greet user
     li $v0, 4       # syscall: print_str
     la $a0, greeting_message  # load address of prompt string
     syscall
 
+loop:
+
+    # Exit program
+    li $v0, 10      # syscall: exit
+    syscall
+    
+    j loop
     # # Prompt for user input
     # li $v0, 4       # syscall: print_str
     # la $a0, prompt  # load address of prompt string
