@@ -10,7 +10,7 @@ factorial_message:    .asciiz "-------\nFactorial\n-------\n"
 
 main:
     # Greet user
-    li $v0, 4       # syscall: print_str
+    li $v0, 4       # syscall: print string
     la $a0, greeting_message  # load address of prompt string
     syscall
 
@@ -20,20 +20,46 @@ loop:
 
 get_option:
 
+    addi $sp, $sp, -8  # Move the stack pointer.
+    sw  $ra,    4($sp)  # Store return address.
+    sw  $s0,    0($sp)  # Store $s0 as we want to use it, but need to also restore it.
+
     # Display select option message
-    li $v0, 4       # syscall: print_str
+    li $v0, 4       # syscall: print string
     la $a0, select_option_message  # load address of prompt string
     syscall
 
+    # Receive option from user input (expect integer 1/ 2/ 3)
+    li $v0, 5       # syscall: read integer
+    syscall
 
+    # Load the option to $s0, which persists across procedural calls
+    lw $s0, $v0
+
+    # TODO: call the 3 procedures based on the 3 different values of $s0
+
+    lw      $ra,        4($sp)      # Restore return address.
+    lw      $s0,        0($sp)      # Restore $s0.
+    addi    $sp,        $sp,    8   # Restore stack pointer position.
+    jr $ra # Return from program
+
+    # TODO: Move the exit program code below to the 3rd procedure ie exit
+    # Graceful exit
+    j end_program
+
+# TODO: is_prime procedure
+# TODO: get_remainder procedure
+# TODO: factorial procedure
+# TODO: mult procedure
+
+
+end_program:
     # Exit program
     li $v0, 10      # syscall: exit
     syscall
 
-
-
     # # Prompt for user input
-    # li $v0, 4       # syscall: print_str
+    # li $v0, 4       # syscall: print string
     # la $a0, prompt  # load address of prompt string
     # syscall
 
@@ -48,23 +74,19 @@ get_option:
 
     # # Display the result
     # beq $v0, 1, prime_result
-    # li $v0, 4       # syscall: print_str
+    # li $v0, 4       # syscall: print string
 
     # la $a0, not_prime_message
     # syscall
 
-    # Graceful exit
-    j end_program
+    
 
 # prime_result:
-#     li $v0, 4       # syscall: print_str
+#     li $v0, 4       # syscall: print string
 #     la $a0, is_prime_message
 #     syscall
 
-end_program:
-    # Exit program
-    li $v0, 10      # syscall: exit
-    syscall
+
 
 # isprime:
 #     # Input: $a0 (number to check)
