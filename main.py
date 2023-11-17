@@ -38,11 +38,11 @@ def is_prime():
         i += 1
     print(f"{val} is a prime number")
 
-def get_remainder(val, divisor):
-    while val >= 0:  # == case important
-        val -= divisor
-    val += divisor  # correct for overshoot
-    return val
+def get_remainder(dividend, divisor):
+    while dividend >= 0:  # == case important
+        dividend -= divisor
+    dividend += divisor  # correct for overshoot
+    return dividend
 
 def factorial():
     print(factorial_message)

@@ -66,6 +66,8 @@ option_executed_or_invalid_input:
 
 
 is_prime:
+    # $s0 -> dividend (user input value)
+    # $s1 -> divisor (starts from 2 up to the dividend value)
 
     addi $sp, $sp, -12  # Move the stack pointer.
     sw  $ra,    8($sp)  # Store return address (we are about to call nested procedures).
@@ -139,21 +141,40 @@ get_remainder_done:
     jr $ra
 
 
+
 factorial:
+    # $s0 -> factorial base (user input value, will be modified by algo)
+    # $s1 -> input value (user input value, unchanged copy)
+    # $s2 -> res
+
+    addi $sp, $sp, -16  # Move the stack pointer.
+    sw  $ra,    12($sp)  # Store return address (we are about to call nested procedures).
+    sw  $s0,    8($sp)  # Store $s0 as we want to use it, but we are also obligated to restore it.
+    sw  $s1,    4($sp)  # Store $s1 as we want to use it, but we are also obligated to restore it.
+    sw  $s2,    0($sp)  # Store $s2 as we want to use it, but we are also obligated to restore it.
+
     # Display factorial_message (Factorial)
     li $v0, 4       # syscall: print string
     la $a0, factorial_message  # load address of prompt string
     syscall
 
+
+    # Receive integer from user input
+    li $v0, 5       # syscall: read integer
+    syscall
+    add $s0, $v0, $zero  # store user's input integer (dividend) in $s0, which persists across procedural calls
+
     # if call procedure, make sure to store $ra in stack
     # TODO: factorial procedure
     # TODO: mult procedure
-    # testing START ---
-    li $v0, 1       # syscall: print integer
-    la $a0, 2222
-    syscall
+
+    lw      $ra,        12($sp)      # Restore return address.
+    lw      $s0,        8($sp)      # Restore $s0.
+    lw      $s1,        4($sp)      # Restore $s1.
+    lw      $s2,        4($sp)      # Restore $s2.
+    addi    $sp,        $sp,    16   # Restore stack pointer position.
     jr $ra
-    # testing END   ---
+    
 
 
 exit:
