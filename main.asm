@@ -17,9 +17,9 @@ main:
     syscall
 
 
-loop:
+main_loop:
     jal get_option
-    j loop
+    j main_loop
 
 
 get_option:
@@ -95,7 +95,18 @@ is_prime:
     li $t0, 1
     ble $s0, $t0, is_prime_false  # if $s0 ie integer <= 1, jump to is_prime_false   
     # TODO: unfin, currently all values <= 1 are not prime and all values > 1 are prime
+
+    # TODO: call get_remainder function  # # # # # #  # # # # # #  # # # # # #  # # # # # #
+    add $a0, $s0, $zero  # value
+    # add $a1, $s0, $zero  # divisor  # TODO
+    li $a1, 4  # TODO remove
+    jal get_remainder
     
+    # TODO remove
+    add $a0, $v0, $zero  # value of get_remainder
+    li $v0, 1       # syscall: print integer
+    syscall
+    # # # # # #  # # # # # #  # # # # # #  # # # # # #  # # # # # #  # # # # # #  # # # # # #
 
 is_prime_true:   
     # Display is_prime_true_message
@@ -115,6 +126,19 @@ is_prime_done:
     lw      $s0,        0($sp)      # Restore $s0.
     addi    $sp,        $sp,    8   # Restore stack pointer position.
     jr $ra
+
+
+get_remainder:
+    # take args from $a0 (val) and $a1 (divisor)
+    # store remainder in $v0
+    li $t0, 0
+    blt $a0, $t0, get_remainder_exit  # if $a0 (val) < 0, jump to get_remainder
+    sub $a0, $a0, $a1
+    j get_remainder  # loop until exit
+get_remainder_exit:
+    add $v0, $a0, $a1  # correct for overshoot, store result in $v0
+    jr $ra
+
 
 factorial:
     # Display factorial_message (Factorial)
