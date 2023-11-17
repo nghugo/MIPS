@@ -168,28 +168,6 @@ factorial:
     add $s1, $v0, $zero  # store user's input integer (factorial number) in $s1, which persists across procedural calls
     li $s2, 1       # store value of 1 in $s2
 
-    # # TESTING - - - - - - - - - - - - - - - - - - - - -
-    
-    # li $a0, 2
-    # li $a1, 3
-    # jal mult
-
-    # # Display the mult result (stored in $v0)
-    # add $a0, $v0, $zero
-    # li $v0, 1       # syscall: print integer
-    # syscall
-
-    # lw      $ra,        12($sp)      # Restore return address.
-    # lw      $s0,        8($sp)      # Restore $s0.
-    # lw      $s1,        4($sp)      # Restore $s1.
-    # lw      $s2,        4($sp)      # Restore $s2.
-    # addi    $sp,        $sp,    16   # Restore stack pointer position.
-    # jr $ra
-    # # END - - - - - - - - - - - - - - - - - - - - -
-
-
-
-# TODO: factorial procedure
 factorial_loop:
     li $t0, 1       # load a threshold
     ble $s0, $t0, factorial_done  # exit loop when value reaches 1
@@ -202,7 +180,6 @@ factorial_loop:
     
     add $s2, $v0, $zero  # store the product in $s2
     addi $s0, $s0, -1  # decrement factorial number by 1
-
 
     j factorial_loop
 
@@ -243,6 +220,8 @@ factorial_done:
     addi    $sp,        $sp,    16   # Restore stack pointer position.
     jr $ra
 
+
+
 mult:
     # $a0 -> argument x
     # $a1 -> argument y
@@ -256,6 +235,7 @@ mult_loop:  # loop y times to add the value x to v0
     j mult_loop
 mult_done:
     jr $ra
+
 
 
 exit:
