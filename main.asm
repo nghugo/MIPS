@@ -194,8 +194,9 @@ factorial_loop:
     li $t0, 1       # load a threshold
     ble $s0, $t0, factorial_done  # exit loop when value reaches 1
 
-    add $a0, $s0, $zero  # pass the factorial number to multiply
-    add $a1, $s2, $zero  # pass the res to multiply
+    # mult x * y performs better if we pick $a1 to be the smaller number out of x and y
+    add $a0, $s2, $zero  # pass the res to multiply
+    add $a1, $s0, $zero  # pass the factorial number to multiply
     
     jal mult  # mult takes the inputs $a0 and $a1, then returns their product in $v0
     
@@ -246,6 +247,7 @@ mult:
     # $a0 -> argument x
     # $a1 -> argument y
     # $v0 -> return x * y
+    # mult x * y performs better if we pick $a1 to be the smaller number out of x and y
     li $v0, 0
 mult_loop:  # loop y times to add the value x to v0
     beq $a1, $zero, mult_done
