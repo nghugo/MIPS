@@ -168,51 +168,15 @@ factorial:
     add $s1, $v0, $zero  # store user's input integer (factorial number) in $s1, which persists across procedural calls
     li $s2, 1       # store value of 1 in $s2
 
-
-# TODO: factorial procedure
-factorial_loop:
-    li $t0, 1       # load a threshold
-    ble $s0, $t0, factorial_done  # exit loop when value reaches 1
-
-    add $a0, $s0, $zero  # pass the factorial number to multiply
-    add $a1, $s2, $zero  # pass the res to multiply
-    # mult takes the inputs $a0 and $a1, then returns their product in $v0
+    # TESTING - - - - - - - - - - - - - - - - - - - - -
+    
+    li $a0, 2
+    li $a1, 3
     jal mult
-    add $s2, $v0, $zero  # store the product in $s2
 
-    addi $a0, $a0, -1  # decrement factorial number by 1
-
-
-    j factorial_loop
-
-factorial_done:
-    # Print the message. Recall:
-    # $s1 -> input value (user input value, unchanged copy)
-    # $s2 -> res
-    
-    # Display factorial_of_message (Factorial of)
-    li $v0, 4       # syscall: print string
-    la $a0, factorial_of_message  # load address of prompt string
-    syscall
-
-    # Display the original factorial number (stored in $s1)
+    # Display the mult result (stored in $v0)
+    add $a0, $v0, $zero
     li $v0, 1       # syscall: print integer
-    add $a0, $s1, $zero
-    syscall
-    
-    # Display factorial_is_message (is)
-    li $v0, 4       # syscall: print string
-    la $a0, factorial_is_message  # load address of prompt string
-    syscall
-
-    # Display the result (stored in $s2)
-    li $v0, 1       # syscall: print integer
-    add $a0, $s2, $zero
-    syscall
-
-    # Display newline_message (\n)
-    li $v0, 4       # syscall: print string
-    la $a0, newline_message  # load address of prompt string
     syscall
 
     lw      $ra,        12($sp)      # Restore return address.
@@ -221,6 +185,62 @@ factorial_done:
     lw      $s2,        4($sp)      # Restore $s2.
     addi    $sp,        $sp,    16   # Restore stack pointer position.
     jr $ra
+    # END - - - - - - - - - - - - - - - - - - - - -
+
+
+
+# # TODO: factorial procedure
+# factorial_loop:
+#     li $t0, 1       # load a threshold
+#     ble $s0, $t0, factorial_done  # exit loop when value reaches 1
+
+#     add $a0, $s0, $zero  # pass the factorial number to multiply
+#     add $a1, $s2, $zero  # pass the res to multiply
+#     # mult takes the inputs $a0 and $a1, then returns their product in $v0
+#     jal mult
+#     add $s2, $v0, $zero  # store the product in $s2
+
+#     addi $a0, $a0, -1  # decrement factorial number by 1
+
+
+#     j factorial_loop
+
+# factorial_done:
+#     # Print the message. Recall:
+#     # $s1 -> input value (user input value, unchanged copy)
+#     # $s2 -> res
+    
+#     # Display factorial_of_message (Factorial of)
+#     li $v0, 4       # syscall: print string
+#     la $a0, factorial_of_message  # load address of prompt string
+#     syscall
+
+#     # Display the original factorial number (stored in $s1)
+#     li $v0, 1       # syscall: print integer
+#     add $a0, $s1, $zero
+#     syscall
+    
+#     # Display factorial_is_message (is)
+#     li $v0, 4       # syscall: print string
+#     la $a0, factorial_is_message  # load address of prompt string
+#     syscall
+
+#     # Display the result (stored in $s2)
+#     li $v0, 1       # syscall: print integer
+#     add $a0, $s2, $zero
+#     syscall
+
+#     # Display newline_message (\n)
+#     li $v0, 4       # syscall: print string
+#     la $a0, newline_message  # load address of prompt string
+#     syscall
+
+#     lw      $ra,        12($sp)      # Restore return address.
+#     lw      $s0,        8($sp)      # Restore $s0.
+#     lw      $s1,        4($sp)      # Restore $s1.
+#     lw      $s2,        4($sp)      # Restore $s2.
+#     addi    $sp,        $sp,    16   # Restore stack pointer position.
+#     jr $ra
 
 mult:
     # $a0 -> argument x
@@ -228,9 +248,9 @@ mult:
     # $v0 -> return x * y
     li $v0, 0
 mult_loop:  # loop y times to add the value x to v0
-    addi $a1, $a1, -1
     beq $a1, $zero, mult_done
     add $v0, $v0, $a0  # $v0 += $a0
+    addi $a1, $a1, -1
     j mult_loop
 mult_done:
     jr $ra
